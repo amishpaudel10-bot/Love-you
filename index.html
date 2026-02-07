@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Valentine Surprise 💌</title>
+    <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --soft-pink: #ffb3c1;
+            --white: #fff0f3;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--white);
+            overflow-x: hidden;
+            color: #590d22;
+        }
+
+        /* --- 1. Opening Screen --- */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ffb3c1, #ff4d6d);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: transform 1s ease-in-out;
+        }
+
+        .open-btn {
+            padding: 20px 40px;
+            font-size: 24px;
+            background-color: white;
+            color: var(--primary-pink);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            font-weight: bold;
+        }
+
+        .open-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- 6. Animated Background --- */
+        .heart-particle {
+            position: absolute;
+            color: var(--primary-pink);
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 0;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* --- Main Content --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        header { padding: 50px 0; }
+
+        /* --- 9. Couple Names --- */
+        .names {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* --- 2. Photo Gallery --- */
+        .gallery {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scroll-snap-type: x mandatory;
+        }
+
+        .photo-card {
+            min-width: 250px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            scroll-snap-align: center;
+        }
+
+        .photo-card img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        /* --- 3. Letter & 4. Quotes --- */
+        .love-letter {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            line-height: 1.8;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
+            border: 2px dashed var(--primary-pink);
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #800f2f;
+        }
+
+        /* --- 8. Surprise Section --- */
+        .surprise-box {
+            margin: 50px 0;
+            padding: 30px;
+            background: #fff;
+            border-radius: 15px;
+        }
+
+        #secret-message {
+            display: none;
+            margin-top: 20px;
+            font-weight: bold;
+            color: var(--primary-pink);
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <h1 style="color: white; margin-bottom: 20px;">For Someone Special...</h1>
+        <button class="open-btn" onclick="openEnvelope()">Open My Valentine 💌</button>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="names">Amish ❤️ Naima</div>
+            <p>Forever Together Since 2025</p>
+        </header>
+
+        <div class="gallery">
+            <div class="photo-card">
+                <img src="https://via.placeholder.com/250x300?text=Our+First+Date" alt="Memory 1">
+                <p>Our first date 💕</p>
+            </div>
+            <div class="photo-card">
+                <img src="https://via.placeholder.com/250x300?text=Favorite+Moment" alt="Memory 2">
+                <p>My favorite moment 😘</p>
+            </div>
+            <div class="photo-card">
+                <img src="https://via.placeholder.com/250x300?text=Smile" alt="Memory 3">
+                <p>That beautiful smile ✨</p>
+            </div>
+        </div>
+
+        <div class="love-letter">
+            <h2>To My Everything,</h2>
+            <p>
+                I’m so thankful to have you in my life. Every moment spent with you 
+                is a treasure. You are my happiness, my smile, and my home.
+            </p>
+            <p class="quote">“Every love story is beautiful, but ours is my favorite.”</p>
+        </div>
+
+        <div class="surprise-box">
+            <h3>Our Journey 📍</h3>
+            <p>First Meet: 2025/03/04</p>
+            <p>Today: Still falling for you!</p>
+        </div>
+
+        <div class="surprise-box">
+            <button class="open-btn" onclick="showSurprise()">🎁 Click for Special Gift</button>
+            <div id="secret-message">
+                I love you more than words can say! <br> 
+                Will you be my Valentine forever? 💍
+            </div>
+        </div>
+
+        <div style="margin-bottom: 100px;">
+            <p>Our Love Meter: 100% 💯</p>
+            <progress value="100" max="100" style="width: 80%; accent-color: #ff4d6d;"></progress>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Function to open the site and start music
+        function openEnvelope() {
+            document.getElementById('overlay').style.transform = 'translateY(-100%)';
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log("Music needs user interaction to play first."));
+            startHearts();
+        }
+
+        // 8. Surprise Reveal
+        function showSurprise() {
+            const msg = document.getElementById('secret-message');
+            msg.style.display = 'block';
+            alert("Surprise! I have a secret for you...");
+        }
+
+        // 6. Floating Hearts Animation
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-particle');
+                heart.innerHTML = ['❤️', '💖', '🌹', '✨'][Math.floor(Math.random() * 4)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '-20px';
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                heart.style.duration = Math.random() * 3 + 2 + 's';
+                
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300);
+        }
+    </script>
+</body>
+                                     </html>
+                                     
