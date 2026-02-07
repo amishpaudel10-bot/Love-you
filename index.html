@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity | Naima & Amish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #ff4d6d;
+            --dark-bg: #1a1a2e;
+            --glass: rgba(255, 255, 255, 0.95);
+            --text: #4a0e0e;
+        }
+
+        body { 
+            margin: 0; font-family: 'Montserrat', sans-serif; 
+            background: #fff5f6; color: var(--text); 
+            transition: 0.5s ease; overflow-x: hidden;
+            font-size: 1.2rem; /* BIGGER TEXT */
+        }
+        body.night { background: var(--dark-bg); color: #ffccd5; }
+
+        /* Entry Lock */
+        #entry-lock {
+            position: fixed; inset: 0; background: var(--rose); 
+            z-index: 10000; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; color: white;
+        }
+
+        .container { display: none; max-width: 600px; margin: 0 auto; padding: 20px; }
+
+        .card { 
+            background: var(--glass); padding: 35px; border-radius: 30px; 
+            margin: 30px 0; box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+            text-align: center; border: 2px solid rgba(255,255,255,0.5);
+        }
+        body.night .card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); color: white; border-color: rgba(255,255,255,0.1); }
+
+        h1, h2, h3 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--rose); margin: 10px 0; }
+        body.night h3 { color: #ff8fa3; }
+
+        .btn-love { 
+            background: var(--rose); color: white; border: none; 
+            padding: 20px; border-radius: 50px; font-weight: 700; 
+            cursor: pointer; width: 100%; font-size: 1.3rem; transition: 0.3s;
+        }
+
+        /* 11. Secret Diary Styling */
+        #diary-content { 
+            display: none; text-align: left; background: #fffdf0; 
+            padding: 20px; border-radius: 15px; color: #444;
+            border-left: 8px solid var(--rose); font-style: italic;
+            line-height: 1.8; margin-top: 20px;
+        }
+
+        /* Gallery Grid */
+        #secret-gallery { display: none; margin-top: 25px; }
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .img-box { background: white; padding: 10px; border-radius: 15px; color: #333; }
+        .img-box img { width: 100%; border-radius: 10px; height: 180px; object-fit: cover; }
+        .img-box p { font-size: 0.9rem; font-weight: 700; margin-top: 10px; }
+
+        input, textarea { 
+            width: 100%; padding: 18px; margin: 15px 0; border-radius: 15px; 
+            border: 2px solid #eee; text-align: center; font-family: inherit; font-size: 1.1rem;
+        }
+
+        #mode-btn { position: fixed; top: 20px; right: 20px; z-index: 1001; cursor: pointer; font-size: 30px; }
+    </style>
+</head>
+<body>
+
+    <div id="entry-lock">
+        <h1>Naima & Amish</h1>
+        <p style="font-size: 1.5rem;">Enter Anniversary (DDMM)</p>
+        <input type="password" id="site-pass" style="width: 200px;" placeholder="••••">
+        <button class="btn-love" style="width: 200px;" onclick="checkEntry()">Unlock Heart 🔐</button>
+    </div>
+
+    <div id="mode-btn" onclick="toggleTheme()">☀️</div>
+
+    <div class="container" id="main-content">
+        
+        <header style="text-align: center; padding-top: 50px;">
+            <h1>Forever Us</h1>
+            <p id="typing" style="font-weight: 700; font-size: 1.4rem; color: var(--rose);"></p>
+        </header>
+
+        <div class="card">
+            <h3>Love Level</h3>
+            <div style="background: #eee; height: 30px; border-radius: 20px; overflow: hidden; margin: 20px 0;">
+                <div id="fill" style="background: var(--rose); height: 100%; width: 0%; transition: 3s;"></div>
+            </div>
+            <p style="font-size: 1.8rem; font-weight: 700;">1000000% 💖</p>
+        </div>
+
+        <div class="card">
+            <h3>My Secret Diary 📖</h3>
+            <p>A place for my deepest thoughts about you.</p>
+            <input type="password" id="diary-pass" placeholder="Enter Amish's Birthday">
+            <button class="btn-love" onclick="unlockDiary()">Open Diary</button>
+            
+            <div id="diary-content">
+                <strong>March 4, 2025:</strong> Today changed everything. Meeting you was like finding the missing piece of my soul...<br><br>
+                <strong>Diary Entry #2:</strong> Every time you smile at me, I fall in love all over again. I promise to always be yours.<br><br>
+                <strong>Diary Entry #3:</strong> You are my queen, Naima. I am building this world just for us.
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Memory Vault 🔐</h3>
+            <div id="gallery-lock-ui">
+                <input type="password" id="gal-pass" placeholder="Enter Amish's Birthday">
+                <button class="btn-love" onclick="unlockGallery()">Unlock Photos</button>
+            </div>
+            
+            <div id="secret-gallery">
+                <div class="gallery-grid">
+                    <div class="img-box"><img src="LINK_1"><p>1. This impressed me</p></div>
+                    <div class="img-box"><img src="LINK_2"><p>2. Our Smiles</p></div>
+                    <div class="img-box"><img src="LINK_3"><p>3. Memory</p></div>
+                    <div class="img-box"><img src="LINK_4"><p>4. My favorite photo</p></div>
+                </div>
+                <div class="img-box" style="margin-top: 20px;"><img src="LINK_5" style="height: 300px;"><p>5. Cutie pie 🤩</p></div>
+            </div>
+        </div>
+
+        <div class="card" style="border: 3px solid var(--rose);">
+            <h3>Send a Love Note 💌</h3>
+            <textarea id="naimaMsg" placeholder="Write to Amish..."></textarea>
+            <button class="btn-love" onclick="sendFinal()">Send to My Heart</button>
+        </div>
+
+    </div>
+
+    <script>
+        const anniversary = "0304";
+        const birthday = "0730";
+
+        function checkEntry() {
+            if(document.getElementById('site-pass').value === anniversary) {
+                document.getElementById('entry-lock').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                startApp();
+            } else { alert("Incorrect! ❤️"); }
+        }
+
+        function unlockDiary() {
+            if(document.getElementById('diary-pass').value === birthday) {
+                document.getElementById('diary-content').style.display = 'block';
+            } else { alert("Access Denied! 😘"); }
+        }
+
+        function unlockGallery() {
+            if(document.getElementById('gal-pass').value === birthday) {
+                document.getElementById('secret-gallery').style.display = 'block';
+                document.getElementById('gallery-lock-ui').style.display = 'none';
+            } else { alert("Incorrect! 😘"); }
+        }
+
+        function startApp() {
+            let i = 0, txt = "You are my world, Naima...";
+            function type() {
+                if (i < txt.length) {
+                    document.getElementById("typing").innerHTML += txt.charAt(i);
+                    i++; setTimeout(type, 100);
+                }
+            }
+            type();
+            setTimeout(() => { document.getElementById('fill').style.width = "100%"; }, 500);
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('night');
+            document.getElementById('mode-btn').innerText = document.body.classList.contains('night') ? "🌙" : "☀️";
+        }
+
+        function sendFinal() {
+            const msg = document.getElementById('naimaMsg').value;
+            if(!msg.trim()) return;
+            window.open(`https://wa.me/9767757067?text=${encodeURIComponent("Naima: " + msg)}`, '_blank');
+        }
+    </script>
+</body>
+              </html>
+              
