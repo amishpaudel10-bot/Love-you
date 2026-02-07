@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Naima ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #ff4d6d;
+            --dark-rose: #800f2f;
+            --gold: #ffb703;
+            --soft-pink: #fff0f3;
+        }
+
+        * { box-sizing: border-box; }
+        body, html { 
+            margin: 0; padding: 0; 
+            font-family: 'Montserrat', sans-serif; 
+            background: var(--soft-pink);
+            color: var(--dark-rose);
+            overflow-x: hidden;
+        }
+
+        /* --- Opening Intro --- */
+        #intro-overlay {
+            position: fixed; inset: 0; background: var(--rose); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; color: white; transition: 1s ease-in-out;
+        }
+        .envelope { font-size: 80px; cursor: pointer; animation: heartbeat 1.5s infinite; }
+        @keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+
+        /* --- Layout --- */
+        .main-content { display: none; padding-bottom: 50px; }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(255,240,243,0.8), rgba(255,240,243,0.8)), url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
+            text-align: center; padding: 20px;
+        }
+        .hero h1 { font-family: 'Great Vibes', cursive; font-size: clamp(3.5rem, 10vw, 6rem); margin: 0; color: var(--rose); }
+        .hero p { font-size: 1.2rem; font-style: italic; max-width: 600px; margin-top: 20px; }
+
+        /* --- QUOTE WALL (Filling the Spaces) --- */
+        .quote-wall {
+            background: var(--rose); color: white; padding: 60px 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px; text-align: center;
+        }
+        .quote-box {
+            padding: 20px; border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            font-family: 'Dancing Script', cursive; font-size: 1.5rem;
+        }
+
+        /* --- Stats/Counters --- */
+        .stats-section {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 50px 20px;
+        }
+        .stat-card {
+            background: white; padding: 30px; border-radius: 20px; width: 280px;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.1); text-align: center;
+        }
+        .stat-card b { display: block; font-size: 2.5rem; color: var(--rose); }
+
+        /* --- Reasons Section --- */
+        .reasons {
+            max-width: 800px; margin: 40px auto; padding: 40px 20px; background: white;
+            border-radius: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        .reasons h2 { font-family: 'Great Vibes', cursive; font-size: 3rem; text-align: center; color: var(--rose); }
+        .reason-item { padding: 15px 0; border-bottom: 1px solid #ffe5ec; font-weight: 500; }
+        .reason-item span { color: var(--rose); margin-right: 10px; }
+
+        /* --- Full Memory Gallery --- */
+        .gallery { padding: 50px 20px; columns: 3 250px; column-gap: 20px; }
+        .gallery img { 
+            width: 100%; border-radius: 15px; margin-bottom: 20px; 
+            border: 5px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* --- Love Message (Fixed WhatsApp) --- */
+        .contact-card {
+            max-width: 600px; margin: 50px auto; background: white; padding: 40px;
+            border-radius: 30px; text-align: center; border: 2px solid var(--rose);
+        }
+        textarea {
+            width: 100%; height: 120px; border: 1px solid #ddd; border-radius: 15px;
+            padding: 15px; margin: 20px 0; font-family: inherit; outline: none;
+        }
+        .send-btn {
+            background: var(--rose); color: white; border: none; padding: 15px 40px;
+            border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.1rem;
+            width: 100%; transition: 0.3s;
+        }
+        .send-btn:hover { background: var(--dark-rose); transform: scale(1.02); }
+
+        /* --- Floating Hearts Decor --- */
+        .floating-heart {
+            position: fixed; top: -10%; pointer-events: none; z-index: 100;
+            animation: fall linear forwards; opacity: 0.6;
+        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        #music-btn {
+            position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+            background: white; border: none; width: 50px; height: 50px; border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay" onclick="startExperience()">
+        <div class="envelope">💌</div>
+        <h1 style="font-family: 'Great Vibes'; font-size: 3rem;">For My Beautiful Naima</h1>
+        <p>A small piece of my heart, just for you.</p>
+        <p style="font-size: 0.8rem; margin-top: 20px; opacity: 0.7;">Click to Open</p>
+    </div>
+
+    <button id="music-btn" onclick="toggleMusic()">🔊</button>
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="main-content" id="mainContainer">
+        
+        <section class="hero">
+            <h1>Amish & Naima</h1>
+            <p>
+                "If I had a flower for every time I thought of you... I could walk through my garden forever."
+            </p>
+            <div style="margin-top: 30px; font-weight: 600; letter-spacing: 5px;">2025 • ∞</div>
+        </section>
+
+        <section class="quote-wall">
+            <div class="quote-box">"You are my heart, my life, my one and only thought."</div>
+            <div class="quote-box">"Whatever our souls are made of, yours and mine are the same."</div>
+            <div class="quote-box">"I love you more than words can show, I think about you more than you could know."</div>
+            <div class="quote-box">"Every day with you is my new favorite day."</div>
+            <div class="quote-box">"In all the world, there is no heart for me like yours."</div>
+            <div class="quote-box">"You're the person I want to spend my forever with."</div>
+        </section>
+
+        <div class="stats-section">
+            <div class="stat-card"><b id="daysTogether">0</b>Days Together ❤️</div>
+            <div class="stat-card"><b id="vDayCount">0</b>Days til Valentine's 🌹</div>
+        </div>
+
+        <section class="reasons">
+            <h2>Reasons Why I Love You</h2>
+            <div class="reason-item"><span>1.</span> The way your eyes sparkle when you laugh.</div>
+            <div class="reason-item"><span>2.</span> How you make the hardest days feel easy.</div>
+            <div class="reason-item"><span>3.</span> Your kindness towards everyone you meet.</div>
+            <div class="reason-item"><span>4.</span> The way you understand me without saying a word.</div>
+            <div class="reason-item"><span>5.</span> Your beautiful soul that shines brighter than anything.</div>
+            <div class="reason-item"><span>6.</span> Because you are simply you, and that is enough.</div>
+        </section>
+
+        <h2 style="text-align: center; font-family: 'Great Vibes'; font-size: 3.5rem;">Our Beautiful Journey</h2>
+        <div class="gallery">
+            <img src="https://picsum.photos/400/500?random=1" alt="Memory">
+            <img src="https://picsum.photos/400/300?random=2" alt="Memory">
+            <img src="https://picsum.photos/400/600?random=3" alt="Memory">
+            <img src="https://picsum.photos/400/400?random=4" alt="Memory">
+            <img src="https://picsum.photos/400/550?random=5" alt="Memory">
+            <img src="https://picsum.photos/400/450?random=6" alt="Memory">
+        </div>
+
+        <div class="contact-card">
+            <h2 style="font-family: 'Great Vibes'; font-size: 2.5rem; margin: 0;">Write Me a Love Note</h2>
+            <textarea id="loveMessage" placeholder="Type a message for Amish here..."></textarea>
+            <button class="send-btn" onclick="sendWhatsApp()">Send via WhatsApp 💌</button>
+        </div>
+
+        <footer style="text-align: center; padding: 50px; opacity: 0.5; font-size: 0.8rem;">
+            MADE FOR NAIMA WITH INFINITE LOVE • 2026
+        </footer>
+    </div>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+
+        function startExperience() {
+            document.getElementById('intro-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('intro-overlay').style.display = 'none';
+                document.getElementById('mainContainer').style.display = 'block';
+                music.play().catch(e => console.log("Music blocked"));
+                updateCounters();
+                spawnHearts();
+            }, 1000);
+        }
+
+        function toggleMusic() {
+            if (music.paused) { music.play(); document.getElementById('music-btn').innerText = '🔊'; }
+            else { music.pause(); document.getElementById('music-btn').innerText = '🔈'; }
+        }
+
+        function updateCounters() {
+            // Days Together since March 4, 2025
+            const start = new Date("2025-03-04");
+            const today = new Date();
+            const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+            document.getElementById('daysTogether').innerText = diff;
+
+            // Days til next V-Day (Feb 14, 2027)
+            const vday = new Date("2027-02-14");
+            const vdiff = Math.floor((vday - today) / (1000 * 60 * 60 * 24));
+            document.getElementById('vDayCount').innerText = vdiff;
+        }
+
+        function spawnHearts() {
+            setInterval(() => {
+                const h = document.createElement('div');
+                h.className = 'floating-heart';
+                h.innerHTML = ['❤️', '💖', '✨', '🌹'][Math.floor(Math.random()*4)];
+                h.style.left = Math.random() * 100 + 'vw';
+                h.style.fontSize = Math.random() * 20 + 15 + 'px';
+                h.style.animationDuration = Math.random() * 3 + 4 + 's';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 7000);
+            }, 600);
+        }
+
+        function sendWhatsApp() {
+            const msg = document.getElementById('loveMessage').value;
+            if(!msg.trim()) return alert("Please write a message first! ❤️");
+            const phone = "9767757067";
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent("Naima: " + msg)}`, '_blank');
+        }
+    </script>
+</body>
+              </html>
+              
