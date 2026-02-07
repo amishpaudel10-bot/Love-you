@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dearest Naima ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #e63946;
+            --blush: #ffb3c1;
+            --cream: #fff5f5;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: #444;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 1. Beautiful Opening Screen */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--blush);
+            z-index: 5000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: 0.8s ease-in-out;
+        }
+
+        .envelope-wrapper { cursor: pointer; padding: 20px; }
+        .envelope-icon { font-size: 80px; display: block; animation: float 3s ease-in-out infinite; }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* Main Content */
+        .main-wrapper { display: none; max-width: 600px; margin: 0 auto; padding: 20px; }
+
+        /* Couple Names */
+        .hero { height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--rose); margin: 0; }
+
+        /* Photo Gallery */
+        .gallery-scroll {
+            display: flex; gap: 15px; overflow-x: auto; padding: 20px 0;
+            scroll-snap-type: x mandatory; scrollbar-width: none;
+        }
+        .photo-card {
+            min-width: 280px; background: white; border-radius: 15px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); overflow: hidden; scroll-snap-align: center;
+        }
+        .photo-card img { width: 100%; height: 250px; object-fit: cover; }
+        .caption { padding: 15px; text-align: center; font-weight: 600; color: var(--rose); }
+
+        /* Card Styles */
+        .card {
+            background: white; padding: 30px; border-radius: 20px;
+            margin: 30px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+
+        .btn-rose {
+            background: var(--rose); color: white; border: none; padding: 15px;
+            border-radius: 50px; font-weight: 600; cursor: pointer; width: 100%; font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        /* 6. Falling Petals */
+        .petal { position: fixed; top: -10%; pointer-events: none; z-index: 100; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay" onclick="openValentine()">
+        <div class="envelope-wrapper">
+            <span class="envelope-icon">💌</span>
+            <h2 style="color: white; font-family: 'Dancing Script';">🌹 Click to Open Your Surprise 🌹</h2>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="main-wrapper" id="mainContent">
+        
+        <section class="hero">
+            <h1>Amish & Naima</h1>
+            <p>Forever Together ❤️</p>
+            <p style="margin-top: 20px; opacity: 0.4; font-size: 0.8rem;">SCROLL DOWN</p>
+        </section>
+
+        <h3 style="color: var(--rose);">Our Memories 📸</h3>
+        <div class="gallery-scroll">
+            <div class="photo-card">
+                <img src="https://picsum.photos/400/300?random=1">
+                <div class="caption">Our first date 💕</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://picsum.photos/400/300?random=2">
+                <div class="caption">My favorite moment 😘</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <p>My Dearest Naima,</p>
+            <p>I’m so thankful to have you in my life. You are my happiness, my smile, my everything ❤️</p>
+            <p style="font-style: italic; color: var(--rose);">"Every love story is beautiful, but ours is my favorite."</p>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <button class="btn-rose" onclick="document.getElementById('gift').style.display='block'">🎁 Click for Special Gift</button>
+            <div id="gift" style="display:none; margin-top:20px; font-weight: bold; color: var(--rose); animation: float 2s infinite;">
+                I love you more than all the stars! 💍✨
+            </div>
+        </div>
+
+        <div class="card" style="background: var(--blush); border: 2px dashed var(--rose);">
+            <h3 style="margin-top:0">Send Me a Message ✍️</h3>
+            <textarea id="msgInput" style="width:100%; height:100px; border:none; border-radius:10px; padding:15px; margin-bottom:10px; font-family: inherit; resize: none;" placeholder="Write something sweet for me..."></textarea>
+            <button class="btn-rose" onclick="sendToWhatsApp()">Send via WhatsApp 💌</button>
+        </div>
+
+        <footer style="text-align: center; padding: 40px; opacity: 0.3; font-size: 0.7rem;">
+            Made for Naima with Love
+        </footer>
+
+    </div>
+
+    <script>
+        function openValentine() {
+            // Hide overlay
+            document.getElementById('intro-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('intro-overlay').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                // Start Music
+                document.getElementById('bgMusic').play().catch(() => {
+                    console.log("Autoplay blocked, waiting for interaction");
+                });
+                startPetals();
+            }, 800);
+        }
+
+        // 6. Magical Petal Animation
+        function startPetals() {
+            setInterval(() => {
+                const p = document.createElement('div');
+                p.className = 'petal';
+                p.innerHTML = ['🌹', '❤️', '✨'][Math.floor(Math.random() * 3)];
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.fontSize = Math.random() * 20 + 10 + 'px';
+                p.style.animationDuration = Math.random() * 3 + 3 + 's';
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 6000);
+            }, 600);
+        }
+
+        // WhatsApp Logic - NO FORMSPREE REQUIRED
+        function sendToWhatsApp() {
+            const message = document.getElementById('msgInput').value;
+            const myNumber = "9767757067"; 
+            
+            if (message.trim() === "") {
+                alert("Write a little something first! ❤️");
+                return;
+            }
+
+            // Encodes the message for a URL
+            const whatsappUrl = `https://wa.me/${myNumber}?text=${encodeURIComponent("From Naima: " + message)}`;
+            
+            // Opens the link directly
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
