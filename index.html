@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity | Naima & Amish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #ff4d6d;
+            --dark-bg: #0f0c29;
+            --glass: rgba(255, 255, 255, 0.9);
+            --text: #4a0e0e;
+            --accent: #ff8fa3;
+        }
+
+        /* 4. Day-Night Mode Base */
+        body { 
+            margin: 0; font-family: 'Montserrat', sans-serif; 
+            background: #fff5f6; color: var(--text); 
+            transition: 0.5s ease; overflow-x: hidden; 
+        }
+        body.night { 
+            background: var(--dark-bg); color: #ffccd5; 
+        }
+
+        /* 7. Private Mode Overlay */
+        #entry-lock {
+            position: fixed; inset: 0; background: var(--rose); 
+            z-index: 9999; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; color: white;
+        }
+
+        .container { display: none; max-width: 500px; margin: 0 auto; padding: 20px; }
+
+        /* General Styling */
+        .card { 
+            background: var(--glass); padding: 25px; border-radius: 25px; 
+            margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            text-align: center; border: 1px solid rgba(255,255,255,0.3);
+        }
+        body.night .card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
+
+        /* 10. Mobile Interaction */
+        .btn-love { 
+            background: var(--rose); color: white; border: none; 
+            padding: 15px 30px; border-radius: 50px; font-weight: 600; 
+            cursor: pointer; width: 100%; transition: 0.3s;
+        }
+
+        /* 9. Floating Wishes */
+        .wish { 
+            position: fixed; bottom: -50px; background: var(--rose); 
+            color: white; padding: 8px 15px; border-radius: 20px; 
+            font-size: 12px; pointer-events: none; z-index: 1000;
+            animation: floatUp 7s linear forwards; 
+        }
+        @keyframes floatUp { to { transform: translateY(-110vh) rotate(20deg); opacity: 0; } }
+
+        /* 8. Love Meter */
+        .meter-bg { background: #eee; height: 15px; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        .meter-fill { background: var(--rose); height: 100%; width: 0%; transition: 3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* 6. Chat Style */
+        .chat-container { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+        .bubble { padding: 10px 15px; border-radius: 18px; max-width: 80%; font-size: 13px; }
+        .received { background: #f0f0f0; align-self: flex-start; color: #333; }
+        .sent { background: var(--rose); color: white; align-self: flex-end; }
+
+        /* Hidden Gallery */
+        #secret-gallery { display: none; margin-top: 20px; }
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .img-box { background: white; padding: 5px; border-radius: 10px; }
+        .img-box img { width: 100%; border-radius: 8px; height: 120px; object-fit: cover; }
+        .img-box p { font-size: 10px; margin: 5px 0; font-weight: 600; }
+
+        input { 
+            width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; 
+            border: 1px solid #ddd; text-align: center; font-family: inherit;
+        }
+        #mode-btn { position: fixed; top: 20px; right: 20px; z-index: 1001; cursor: pointer; font-size: 24px; }
+    </style>
+</head>
+<body>
+
+    <div id="entry-lock">
+        <h1 style="font-family: 'Dancing Script'; font-size: 3rem;">Hi Naima</h1>
+        <p>Enter our Anniversary Date (DDMM)</p>
+        <input type="password" id="site-pass" style="width: 150px;" placeholder="••••">
+        <button class="btn-love" style="width: 150px;" onclick="checkEntry()">Unlock 🔐</button>
+    </div>
+
+    <div id="mode-btn" onclick="toggleTheme()">☀️</div>
+
+    <div class="container" id="main-content">
+        
+        <header>
+            <h1 style="font-family: 'Dancing Script'; font-size: 3rem; color: var(--rose); margin-bottom: 0;">Amish & Naima</h1>
+            <p id="typing" style="font-style: italic; min-height: 20px;"></p>
+        </header>
+
+        <div class="card">
+            <h3>Love Level: <span id="percent">0</span>%</h3>
+            <div class="meter-bg"><div class="meter-fill" id="fill"></div></div>
+            <p id="meter-text" style="font-weight: 600;">Connecting Hearts...</p>
+        </div>
+
+        <div class="card">
+            <h3 id="song-name">Love Playlist 🎵</h3>
+            <div style="display: flex; justify-content: center; gap: 20px; font-size: 30px;">
+                <span onclick="changeSong(-1)" style="cursor: pointer;">⏮️</span>
+                <span onclick="toggleMusic()" id="play-icon" style="cursor: pointer;">▶️</span>
+                <span onclick="changeSong(1)" style="cursor: pointer;">⏭️</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Locked Memories 🔐</h3>
+            <p style="font-size: 12px;">Enter Amish's Birthday to unlock (MMDD)</p>
+            <input type="password" id="gal-pass" placeholder="Birthday">
+            <button class="btn-love" onclick="unlockGallery()">View Gallery</button>
+            
+            <div id="secret-gallery">
+                <div class="gallery-grid">
+                    <div class="img-box"><img src="PASTE_LINK_1"><p>1. This impressed me</p></div>
+                    <div class="img-box"><img src="PASTE_LINK_2"><p>2. Our Smiles</p></div>
+                    <div class="img-box"><img src="PASTE_LINK_3"><p>3. Memory</p></div>
+                    <div class="img-box"><img src="PASTE_LINK_4"><p>4. My favorite</p></div>
+                </div>
+                <div class="img-box" style="margin-top: 10px;"><img src="PASTE_LINK_5" style="height: 200px;"><p>5. Cutie pie 🤩</p></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>How well do you know me? 💘</h3>
+            <p id="quiz-q">What is my favorite nickname for you?</p>
+            <button class="btn-love" style="margin-bottom: 8px;" onclick="quiz('100% Soulmate 💞')">Queen</button>
+            <button class="btn-love" onclick="quiz('Still Learning 😘')">Princess</button>
+            <p id="quiz-res" style="margin-top: 10px; font-weight: bold;"></p>
+        </div>
+
+        <div class="card">
+            <div class="chat-container">
+                <div class="bubble received">Missing you more today...</div>
+                <div class="bubble sent">I'm always right here in your heart. ❤️</div>
+                <div class="bubble received">Forever?</div>
+                <div class="bubble sent">Always. ♾️</div>
+            </div>
+        </div>
+
+        <div class="card" style="border: 2px solid var(--rose);">
+            <h3>Send a Message ✍️</h3>
+            <textarea id="naimaMsg" style="width:100%; height:80px; border-radius:10px; border:1px solid #ddd; padding:10px;" placeholder="Say something sweet..."></textarea>
+            <button class="btn-love" style="margin-top: 10px;" onclick="sendFinal()">Send Love 💌</button>
+        </div>
+
+    </div>
+
+    <script>
+        const anniversary = "0403";
+        const birthday = "0915";
+        const songs = [
+            "https://www.bensound.com/bensound-music/bensound-love.mp3",
+            "https://www.bensound.com/bensound-music/bensound-romantic.mp3"
+        ];
+        let currentSong = 0;
+        let audio = new Audio(songs[0]);
+
+        // 7. Site Unlock
+        function checkEntry() {
+            if(document.getElementById('site-pass').value === anniversary) {
+                document.getElementById('entry-lock').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                startApp();
+            } else { alert("Wrong date! Think about us... ❤️"); }
+        }
+
+        function startApp() {
+            // 5. Typing Effect
+            let i = 0, txt = "You are the best thing that ever happened to me, Naima...";
+            function type() {
+                if (i < txt.length) {
+                    document.getElementById("typing").innerHTML += txt.charAt(i);
+                    i++; setTimeout(type, 70);
+                }
+            }
+            type();
+
+            // 8. Meter
+            setTimeout(() => {
+                document.getElementById('fill').style.width = "100%";
+                document.getElementById('percent').innerText = "100000";
+                document.getElementById('meter-text').innerText = "Love Level: Absolute 💖";
+            }, 500);
+
+            // 9. Floating Wishes
+            setInterval(createWish, 3000);
+        }
+
+        // 4. Day/Night Mode
+        function toggleTheme() {
+            document.body.classList.toggle('night');
+            const btn = document.getElementById('mode-btn');
+            btn.innerText = document.body.classList.contains('night') ? "🌙" : "☀️";
+        }
+
+        // 2. Playlist Logic
+        function toggleMusic() {
+            if (audio.paused) { audio.play(); document.getElementById('play-icon').innerText = "⏸️"; }
+            else { audio.pause(); document.getElementById('play-icon').innerText = "▶️"; }
+        }
+        function changeSong(dir) {
+            currentSong = (currentSong + dir + songs.length) % songs.length;
+            audio.src = songs[currentSong];
+            audio.play();
+        }
+
+        // Hidden Gallery
+        function unlockGallery() {
+            if(document.getElementById('gal-pass').value === birthday) {
+                document.getElementById('secret-gallery').style.display = 'block';
+            } else { alert("That's not my birthday! 😘"); }
+        }
+
+        // 3. Quiz
+        function quiz(res) { document.getElementById('quiz-res').innerText = res; }
+
+        // 9. Wish Spawner
+        function createWish() {
+            const wishes = ["Miss You 😘", "My Queen 👑", "My World 🌍", "Always Yours 💖"];
+            const w = document.createElement('div');
+            w.className = 'wish';
+            w.innerText = wishes[Math.floor(Math.random()*wishes.length)];
+            w.style.left = Math.random() * 80 + 'vw';
+            document.body.appendChild(w);
+            setTimeout(() => w.remove(), 7000);
+        }
+
+        // 10. Vibration & Send
+        function sendFinal() {
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Vibrates phone
+            const msg = document.getElementById('naimaMsg').value;
+            if(!msg.trim()) return;
+            window.open(`https://wa.me/9767757067?text=${encodeURIComponent("Naima: " + msg)}`, '_blank');
+        }
+    </script>
+</body>
+                                                                           </html>
+                                                                           
