@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity | Naima & Amish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #ff4d6d;
+            --dark-bg: #0f0c29;
+            --glass: rgba(255, 255, 255, 0.98);
+            --diary-paper: #fdf6e3;
+        }
+
+        body { 
+            margin: 0; font-family: 'Montserrat', sans-serif; 
+            background: #fff5f6; color: #4a0e0e; 
+            transition: 0.5s ease; overflow-x: hidden;
+            font-size: 1.4rem;
+        }
+        body.night { background: var(--dark-bg); color: #ffccd5; }
+
+        /* --- Access Lock --- */
+        #entry-lock {
+            position: fixed; inset: 0; background: var(--rose); 
+            z-index: 10000; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; color: white;
+            text-align: center; padding: 20px;
+        }
+
+        .container { display: none; max-width: 700px; margin: 0 auto; padding: 30px; }
+
+        .card { 
+            background: var(--glass); padding: 45px; border-radius: 40px; 
+            margin: 40px 0; box-shadow: 0 20px 50px rgba(255, 77, 109, 0.15); 
+            text-align: center; border: 3px solid white;
+        }
+        body.night .card { background: rgba(20, 20, 40, 0.9); border-color: #333; color: white; }
+
+        h1 { font-size: 4.5rem; font-family: 'Dancing Script', cursive; color: var(--rose); }
+        h3 { font-size: 3rem; font-family: 'Dancing Script', cursive; color: var(--rose); }
+
+        .btn-love { 
+            background: var(--rose); color: white; border: none; 
+            padding: 22px 40px; border-radius: 60px; font-weight: 700; 
+            cursor: pointer; width: 100%; font-size: 1.5rem; 
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+        }
+
+        /* --- Countdown Styling --- */
+        .countdown-display {
+            display: flex; justify-content: center; gap: 15px; margin-top: 20px;
+        }
+        .time-box {
+            background: var(--rose); color: white; padding: 15px;
+            border-radius: 15px; min-width: 90px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .time-box span { display: block; font-size: 2.2rem; font-weight: 700; }
+        .time-box label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- Secret Diary --- */
+        #diary-content { 
+            display: none; text-align: left; background: var(--diary-paper); 
+            padding: 35px; border-radius: 20px; color: #5d4037;
+            border: 1px solid #dcd3b2; line-height: 2; margin-top: 25px;
+        }
+
+        /* --- Photo Vault --- */
+        #secret-gallery { display: none; margin-top: 30px; }
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .img-box { background: white; padding: 15px; border-radius: 20px; }
+        .img-box img { width: 100%; border-radius: 15px; height: 220px; object-fit: cover; }
+
+        input, textarea { 
+            width: 100%; padding: 22px; margin: 20px 0; border-radius: 20px; 
+            border: 2px solid #eee; text-align: center; font-family: inherit; font-size: 1.3rem;
+        }
+
+        #top-controls { position: fixed; top: 20px; right: 20px; z-index: 1001; display: flex; gap: 15px; }
+        .icon-btn { background: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div id="entry-lock">
+        <h1>For Naima</h1>
+        <p style="font-size: 1.8rem;">Enter our Anniversary Date</p>
+        <input type="password" id="site-pass" style="max-width: 250px;" placeholder="0304">
+        <button class="btn-love" style="max-width: 250px;" onclick="checkEntry()">Unlock 🔓</button>
+    </div>
+
+    <div id="top-controls">
+        <div class="icon-btn" onclick="toggleMusic()" id="music-btn">🎵</div>
+        <div class="icon-btn" onclick="toggleTheme()" id="theme-btn">☀️</div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.chosic.com/wp-content/uploads/2021/07/Rainy-Day-Music-Cinematic-Piano.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container" id="main-content">
+        
+        <header style="text-align: center; margin: 60px 0;">
+            <h1>Amish & Naima</h1>
+            <p id="typing" style="font-weight: 700; font-size: 1.8rem; color: var(--rose); min-height: 40px;"></p>
+        </header>
+
+        <div class="card">
+            <h3>One Year of Us</h3>
+            <p style="font-size: 1.3rem; font-weight: 600;">Counting down to March 4, 2026 ❤️</p>
+            <div class="countdown-display">
+                <div class="time-box"><span id="days">00</span><label>Days</label></div>
+                <div class="time-box"><span id="hours">00</span><label>Hrs</label></div>
+                <div class="time-box"><span id="mins">00</span><label>Mins</label></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Secret Diary 📖</h3>
+            <div id="diary-lock-ui">
+                <input type="password" id="diary-pass" placeholder="Amish's Birthday (0730)">
+                <button class="btn-love" onclick="unlockDiary()">Read Diary</button>
+            </div>
+            <div id="diary-content">
+                <strong>March 4, 2025:</strong> The day it all began. Looking back at this past year, I realize how much you mean to me, Naima.<br><br>
+                <strong>Diary Entry:</strong> Every challenge we faced only made us stronger. I am so proud of us as we approach our first anniversary.<br><br>
+                <strong>My Promise:</strong> To another year of laughter, growth, and endless love. You are my forever.
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Memory Vault 🔐</h3>
+            <div id="gallery-lock-ui">
+                <input type="password" id="gal-pass" placeholder="Amish's Birthday (0730)">
+                <button class="btn-love" onclick="unlockGallery()">Unlock Photos</button>
+            </div>
+            <div id="secret-gallery">
+                <div class="gallery-grid">
+                    <div class="img-box"><img src="LINK_1"><p>1. This impressed me</p></div>
+                    <div class="img-box"><img src="LINK_2"><p>2. Our Smiles</p></div>
+                    <div class="img-box"><img src="LINK_3"><p>3. Memory</p></div>
+                    <div class="img-box"><img src="LINK_4"><p>4. My favorite photo</p></div>
+                </div>
+                <div class="img-box" style="margin-top: 25px;"><img src="LINK_5" style="height: 400px;"><p>5. Cutie pie 🤩</p></div>
+            </div>
+        </div>
+
+        <div class="card" style="border: 4px solid var(--rose);">
+            <h3>Send a Message 💌</h3>
+            <textarea id="naimaMsg" placeholder="A message for our 1-year journey..."></textarea>
+            <button class="btn-love" onclick="sendFinal()">Send to Amish</button>
+        </div>
+
+    </div>
+
+    <script>
+        const anniversary = "0304";
+        const birthday = "0730";
+        const music = document.getElementById('bgMusic');
+
+        function checkEntry() {
+            if(document.getElementById('site-pass').value === anniversary) {
+                document.getElementById('entry-lock').style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    document.getElementById('entry-lock').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                    music.play();
+                    startApp();
+                }, 600);
+            } else { alert("Incorrect Date! ❤️"); }
+        }
+
+        function toggleMusic() { music.paused ? music.play() : music.pause(); }
+        function toggleTheme() {
+            document.body.classList.toggle('night');
+            document.getElementById('theme-btn').innerText = document.body.classList.contains('night') ? "🌙" : "☀️";
+        }
+
+        function unlockDiary() {
+            if(document.getElementById('diary-pass').value === birthday) {
+                document.getElementById('diary-content').style.display = 'block';
+                document.getElementById('diary-lock-ui').style.display = 'none';
+            } else { alert("Not the right date! 😘"); }
+        }
+
+        function unlockGallery() {
+            if(document.getElementById('gal-pass').value === birthday) {
+                document.getElementById('secret-gallery').style.display = 'block';
+                document.getElementById('gallery-lock-ui').style.display = 'none';
+            } else { alert("Incorrect! 😘"); }
+        }
+
+        function startApp() {
+            let i = 0, txt = "Naima, one year ago today, my world changed forever...";
+            function type() {
+                if (i < txt.length) {
+                    document.getElementById("typing").innerHTML += txt.charAt(i);
+                    i++; setTimeout(type, 80);
+                }
+            }
+            type();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        function updateCountdown() {
+            const target = new Date("March 4, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+
+            if (diff > 0) {
+                document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("mins").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            } else {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("mins").innerText = "00";
+            }
+        }
+
+        function sendFinal() {
+            const msg = document.getElementById('naimaMsg').value;
+            if(!msg.trim()) return;
+            window.open(`https://wa.me/9767757067?text=${encodeURIComponent("Naima: " + msg)}`, '_blank');
+        }
+    </script>
+</body>
+              </html>
+              
