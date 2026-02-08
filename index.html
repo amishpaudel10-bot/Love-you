@@ -103,7 +103,7 @@
             <button class="btn-love" onclick="confetti()">Your Lap</button>
             <p>Favorite Drink?</p>
             <button class="btn-love" onclick="confetti()">Tea ☕</button>
-            <button class="btn-love" onclick="alert('Naughty! But yes.')">Milk 🍼</button>
+            <button class="btn-love" onclick="alert('Naughty! But yes.')">Your Milk 🍼</button>
         </div>
     </div>
 
@@ -127,7 +127,7 @@
                 <span onclick="setMood('Happy 😊')">😊</span>
                 <span onclick="setMood('Sad 🥺')">🥺</span>
                 <span onclick="setMood('Angry 😤')">😤</span>
-                <span onclick="setMood('Romantic ❤️')">❤️</span>
+                <span onclick="setMood('Romantic 🤤')">🤤</span>
             </div>
             <p id="selected-mood">Select one</p>
             <button class="btn-love" onclick="sendMood()">Send Mood to Amish</button>
@@ -141,9 +141,10 @@
             <div style="margin-top:10px; display:flex; gap:5px; justify-content:center;">
                 <button onclick="setTool('pencil')">✏️ Pencil</button>
                 <button onclick="setTool('eraser')">🧽 Eraser</button>
+                <button onclick="setTool('colour')">🎨 Colour</button>
                 <button onclick="clearCanvas()">🗑️ Clear</button>
             </div>
-            <p style="font-size:12px;">Draw your dream diamond ring!</p>
+            <p style="font-size:12px;">Design your dream diamond ring!</p>
         </div>
     </div>
 
@@ -165,12 +166,13 @@
             <div class="card"><h3>Letter 1</h3><p>My dearest Naima, every day with you is a gift...</p></div>
             <div class="card"><h3>Letter 2</h3><p>I promise to hold your hand through every Kathmandu traffic jam and every life storm...</p></div>
             <div class="card"><h3>Letter 3</h3><p>Your lap is my only home...</p></div>
+            <div class="card"><h3>letter 4</h3><p>Your will be mom of my child...</p></dov>
         </div>
     </div>
 
     <script>
         const anniversary = "0304";
-        const birthday = "0730";
+        const birthday = "0915";
         const music = document.getElementById('bgMusic');
         let currentMood = "";
 
