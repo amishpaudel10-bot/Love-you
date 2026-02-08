@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity | Naima & Amish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose: #ff4d6d;
+            --dark-bg: #0b0e14;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        body { 
+            margin: 0; font-family: 'Montserrat', sans-serif; 
+            background: #fff5f6; color: #4a0e0e; 
+            transition: 0.8s ease; overflow-x: hidden;
+            font-size: 1.4rem;
+        }
+        body.night { background: var(--dark-bg); color: #ffccd5; }
+
+        .container { display: none; max-width: 800px; margin: 0 auto; padding: 20px; animation: fadeIn 1.5s; }
+        
+        .card { 
+            background: var(--glass); padding: 40px; border-radius: 35px; 
+            margin: 30px 0; box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2); 
+            text-align: center; border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+        }
+        body.night .card { background: rgba(255, 255, 255, 0.08); color: white; }
+
+        h1 { font-size: 4.5rem; font-family: 'Dancing Script', cursive; color: var(--rose); }
+        h3 { font-size: 2.5rem; font-family: 'Dancing Script', cursive; color: var(--rose); }
+
+        .btn-love { 
+            background: var(--rose); color: white; border: none; 
+            padding: 20px 30px; border-radius: 50px; font-weight: 700; 
+            cursor: pointer; width: 100%; font-size: 1.4rem; transition: 0.3s;
+        }
+
+        /* --- BIG PHOTO FRAMES --- */
+        .photo-vault { display: none; margin-top: 30px; }
+        .big-frame { 
+            background: white; padding: 15px; border-radius: 10px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 40px;
+        }
+        .big-frame img { 
+            width: 100%; height: 550px; /* EXTRA LARGE HEIGHT */
+            object-fit: cover; border-radius: 5px; 
+        }
+        .big-frame p { font-family: 'Dancing Script', cursive; font-size: 2rem; margin-top: 15px; color: #333; }
+
+        #entry-lock { position: fixed; inset: 0; background: var(--rose); z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+        
+        /* Input Styling */
+        input[type="password"], textarea { 
+            width: 85%; padding: 20px; margin: 15px 0; border-radius: 20px; 
+            border: 2px solid #eee; text-align: center; font-size: 1.3rem; 
+        }
+
+        #top-controls { position: fixed; top: 20px; right: 20px; z-index: 1001; display: flex; gap: 10px; }
+        .icon-btn { background: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="entry-lock">
+        <h1>For Naima</h1>
+        <p>Unlock our world (Anniversary Date)</p>
+        <input type="password" id="site-pass" placeholder="Enter Date (DDMM)">
+        <br>
+        <button class="btn-love" style="width: 250px;" onclick="checkEntry()">Unlock & Play 🎵</button>
+    </div>
+
+    <div id="top-controls">
+        <div class="icon-btn" onclick="toggleMusic()">🎵</div>
+        <div class="icon-btn" onclick="toggleTheme()">☀️</div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.chosic.com/wp-content/uploads/2021/07/Rainy-Day-Music-Cinematic-Piano.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container" id="main-content">
+        <header style="text-align: center; padding: 40px 0;">
+            <h1>Amish & Naima</h1>
+            <p id="typing" style="font-weight: 700; color: var(--rose); min-height: 40px;"></p>
+        </header>
+
+        <div class="card">
+            <h3>Secret Memories 🔐</h3>
+            <div id="lock-ui">
+                <input type="password" id="sec-pass" placeholder="Amish's Birthday">
+                <button class="btn-love" onclick="unlockSecret()">Reveal Our Photos</button>
+            </div>
+            
+            <div id="hidden-stuff" class="photo-vault">
+                <div class="big-frame">
+                    <img src="YOUR_PHOTO_URL_1">
+                    <p>1. This impressed me</p>
+                </div>
+                <div class="big-frame">
+                    <img src="YOUR_PHOTO_URL_2">
+                    <p>2. Our Smiles</p>
+                </div>
+                <div class="big-frame">
+                    <img src="YOUR_PHOTO_URL_3">
+                    <p>3. Memory</p>
+                </div>
+                <div class="big-frame">
+                    <img src="YOUR_PHOTO_URL_4">
+                    <p>4. My favorite photo</p>
+                </div>
+                <div class="big-frame">
+                    <img src="YOUR_PHOTO_URL_5">
+                    <p>5. Cutie pie 🤩</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Send a Message 💌</h3>
+            <textarea id="naimaMsg" placeholder="Write a note to Amish..."></textarea>
+            <button class="btn-love" onclick="sendWA()">Send to Amish</button>
+        </div>
+    </div>
+
+    <script>
+        const ann = "0304";
+        const bday = "0730";
+        const music = document.getElementById('bgMusic');
+
+        function checkEntry() {
+            if(document.getElementById('site-pass').value === ann) {
+                // Ensure music plays after user interaction
+                music.play().catch(e => console.log("Audio ready."));
+                document.getElementById('entry-lock').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                typeWriter("Naima, you are my today and all of my tomorrows...");
+            } else { alert("Incorrect Date, My Love! ❤️"); }
+        }
+
+        function unlockSecret() {
+            if(document.getElementById('sec-pass').value === bday) {
+                document.getElementById('hidden-stuff').style.display = 'block';
+                document.getElementById('lock-ui').style.display = 'none';
+            } else { alert("Not the right key! 😘"); }
+        }
+
+        function typeWriter(txt) {
+            let i = 0;
+            function run() {
+                if (i < txt.length) {
+                    document.getElementById("typing").innerHTML += txt.charAt(i);
+                    i++; setTimeout(run, 80);
+                }
+            }
+            run();
+        }
+
+        function toggleMusic() { music.paused ? music.play() : music.pause(); }
+        function toggleTheme() { document.body.classList.toggle('night'); }
+        function sendWA() {
+            const m = document.getElementById('naimaMsg').value;
+            if(!m.trim()) return;
+            window.open(`https://wa.me/9767757067?text=${encodeURIComponent("Naima: " + m)}`);
+        }
+    </script>
+</body>
+  </html>
+  
