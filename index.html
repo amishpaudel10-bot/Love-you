@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity | Naima & Amish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root { --rose: #ff4d6d; --gold: #ffd700; --dark: #1a1a2e; --glass: rgba(255, 255, 255, 0.95); }
+        
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background: #fff5f6; overflow: hidden; transition: 0.5s; }
+        .page { display: none; height: 100vh; width: 100vw; position: absolute; top: 0; left: 0; padding: 20px; box-sizing: border-box; overflow-y: auto; animation: fadeIn 0.8s ease-in-out; }
+        .active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Navigation Bar */
+        nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--glass); padding: 10px 20px; border-radius: 40px; display: flex; gap: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; border: 1px solid var(--rose); }
+        nav div { cursor: pointer; font-size: 24px; transition: 0.3s; }
+        nav div:hover { transform: scale(1.2); }
+
+        /* Music Selector */
+        #music-box { position: fixed; top: 20px; left: 20px; background: var(--glass); padding: 10px; border-radius: 15px; z-index: 1001; font-size: 12px; border: 1px solid var(--rose); }
+        select { border: none; background: transparent; font-family: inherit; font-weight: bold; cursor: pointer; }
+
+        /* Professional Cards */
+        .card { background: var(--glass); padding: 30px; border-radius: 30px; margin: 20px auto; max-width: 500px; text-align: center; box-shadow: 0 15px 35px rgba(255, 77, 109, 0.1); border: 1px solid rgba(255,255,255,0.3); }
+        
+        h1 { font-family: 'Dancing Script', cursive; color: var(--rose); font-size: 3.5rem; }
+        .btn-love { background: var(--rose); color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
+
+        /* Gift Box */
+        #gift-container { font-size: 100px; cursor: pointer; transition: 0.5s; }
+        #gift-container:hover { transform: scale(1.1) rotate(5deg); }
+
+        /* Fireworks Canvas */
+        #fw-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: -1; }
+
+        /* Big Frames */
+        .big-frame { background: white; padding: 10px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .big-frame img { width: 100%; height: 500px; object-fit: cover; border-radius: 5px; }
+
+        #lock-screen { position: fixed; inset: 0; background: var(--rose); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; }
+    </style>
+</head>
+<body>
+
+    <div id="music-box">
+        🎵 <select id="song-select" onchange="changeMusic()">
+            <option value="https://www.chosic.com/wp-content/uploads/2021/07/Rainy-Day-Music-Cinematic-Piano.mp3">Romantic Piano</option>
+            <option value="https://www.chosic.com/wp-content/uploads/2021/04/Lofi-Study-Music.mp3">Lofi Love</option>
+            <option value="https://www.chosic.com/wp-content/uploads/2021/07/Always-With-Me.mp3">Dreamy Strings</option>
+        </select>
+    </div>
+    <audio id="bgMusic" loop></audio>
+
+    <div id="lock-screen">
+        <h1>Naima & Amish</h1>
+        <p>Unlock our Galaxy (DDMM)</p>
+        <input type="password" id="site-pass" style="padding:15px; border-radius:20px; border:none; text-align:center; margin:10px;" placeholder="••••">
+        <button class="btn-love" style="width:200px" onclick="unlockApp()">Unlock 🔓</button>
+    </div>
+
+    <nav id="main-nav" style="display:none;">
+        <div onclick="showPage('home')">🏠</div>
+        <div onclick="showPage('vault')">🔐</div>
+        <div onclick="showPage('gift')">🎁</div>
+        <div onclick="showPage('fireworks')">🎆</div>
+    </nav>
+
+    <div id="home" class="page active" style="background: #fff5f6;">
+        <div class="card" style="margin-top: 80px;">
+            <h1>Hi Naima!</h1>
+            <p id="greet-text">Good Afternoon, My Love 🌸</p>
+            <p>"You are the best thing that ever happened to me."</p>
+            <div style="background:#eee; height:20px; border-radius:10px; margin-top:20px;">
+                <div style="background:var(--rose); width:85%; height:100%; border-radius:10px;"></div>
+            </div>
+            <p style="font-size:12px; margin-top:5px;">Our Love Progress: 999%</p>
+        </div>
+    </div>
+
+    <div id="vault" class="page">
+        <div class="card" id="vault-login">
+            <h1>Secret Vault</h1>
+            <input type="password" id="vault-pass" style="padding:15px; border-radius:20px; border:1px solid #ddd; width:80%" placeholder="Birthday (DDMM)">
+            <button class="btn-love" onclick="unlockVault()">Access Memories</button>
+        </div>
+        <div id="vault-content" style="display:none; padding: 20px;">
+            <div class="big-frame">
+                <img src="IMG-20260111-WA0001.jpg">
+                <p style="font-family:'Dancing Script'; text-align:center; font-size:24px;">My Universe ❤️</p>
+            </div>
+            <div class="big-frame">
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=500&q=80">
+                <p style="font-family:'Dancing Script'; text-align:center; font-size:24px;">Always You</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="gift" class="page">
+        <div class="card" style="margin-top:100px;">
+            <h1>A Gift for You</h1>
+            <div id="gift-container" onclick="openGift()">🎁</div>
+            <p id="gift-msg">Tap to open...</p>
+        </div>
+    </div>
+
+    <div id="fireworks" class="page">
+        <canvas id="fw-canvas"></canvas>
+        <div style="position:relative; text-align:center; color:white; margin-top:50px;">
+            <h1 style="color:white; text-shadow: 0 0 10px var(--rose);">For You, Naima</h1>
+            <p>Tap anywhere for fireworks 🎆</p>
+        </div>
+    </div>
+
+    <script>
+        const anniversary = "0304";
+        const birthday = "0730";
+        const music = document.getElementById('bgMusic');
+
+        function unlockApp() {
+            if(document.getElementById('site-pass').value === anniversary) {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('main-nav').style.display = 'flex';
+                music.src = document.getElementById('song-select').value;
+                music.play();
+                confetti({ particleCount: 150, spread: 70 });
+            } else { alert("Try again, love! ❤️"); }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            if(pageId === 'fireworks') initFireworks();
+        }
+
+        function changeMusic() {
+            music.src = document.getElementById('song-select').value;
+            music.play();
+        }
+
+        function unlockVault() {
+            if(document.getElementById('vault-pass').value === birthday) {
+                document.getElementById('vault-login').style.display = 'none';
+                document.getElementById('vault-content').style.display = 'block';
+            }
+        }
+
+        function openGift() {
+            const gift = document.getElementById('gift-container');
+            gift.innerHTML = "🌹";
+            document.getElementById('gift-msg').innerHTML = "You are the most beautiful flower in my garden, Naima. I love you! ❤️";
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+
+        // Fireworks Logic
+        function initFireworks() {
+            const canvas = document.getElementById('fw-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            canvas.onclick = (e) => {
+                for(let i=0; i<5; i++) {
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 50,
+                            startVelocity: 30,
+                            spread: 360,
+                            origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight },
+                            colors: ['#ff4d6d', '#ffd700', '#ffffff']
+                        });
+                    }, i * 100);
+                }
+            };
+        }
+    </script>
+</body>
+  </html>
+  
