@@ -102,8 +102,8 @@
             <p>Favorite Place?</p>
             <button class="btn-love" onclick="confetti()">Your Lap</button>
             <p>Favorite Drink?</p>
-            <button class="btn-love" onclick="confetti()">Tea ☕</button>
-            <button class="btn-love" onclick="alert('Naughty! But yes.')">Your Milk 🍼</button>
+            <button class="btn-love" onclick="alert()">Tea ☕</button>
+            <button class="btn-love" onclick="confetti('Naughty! But yes.')">Your Milk 🍼</button>
         </div>
     </div>
 
@@ -229,9 +229,9 @@
         function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
         function setMood(m) { currentMood = m; document.getElementById('selected-mood').innerText = "Selected: " + m; }
-        function sendMood() { window.open(`https://wa.me/9767757067?text=Hey Amish, my mood is: ${currentMood}`); }
-        function sendDiary() { window.open(`https://wa.me/9767757067?text=Diary: ${document.getElementById('diary-body').value}`); }
-        function sendWish() { window.open(`https://wa.me/9767757067?text=Valentine Wish: ${document.getElementById('val-wish').value}`); }
+        function sendMood() { window.open(`https://wa.me/+9779767757067?text=Hey Amish, my mood is: ${currentMood}`); }
+        function sendDiary() { window.open(`https://wa.me/+9779767757067?text=Diary: ${document.getElementById('diary-body').value}`); }
+        function sendWish() { window.open(`https://wa.me/+9779767757067?text=Valentine Wish: ${document.getElementById('val-wish').value}`); }
 
         function createFirework(e) {
             confetti({ origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight } });
