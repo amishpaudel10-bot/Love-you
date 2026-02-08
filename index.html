@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity | Naima & Amish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root { --rose: #ff4d6d; --gold: #ffd700; --dark: #0f0c29; --glass: rgba(255, 255, 255, 0.95); }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background: #fff5f6; overflow: hidden; color: #4a0e0e; }
+        
+        /* Navigation Bar */
+        nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--glass); padding: 10px 20px; border-radius: 40px; display: flex; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; border: 1px solid var(--rose); overflow-x: auto; max-width: 95%; }
+        nav div { cursor: pointer; font-size: 22px; padding: 5px; transition: 0.3s; }
+        nav div:hover { transform: scale(1.2); }
+
+        /* Pages */
+        .page { display: none; height: 100vh; width: 100vw; position: absolute; top: 0; left: 0; padding: 20px; box-sizing: border-box; overflow-y: auto; padding-bottom: 100px; }
+        .active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* UI Elements */
+        .card { background: var(--glass); padding: 25px; border-radius: 30px; margin: 15px auto; max-width: 500px; text-align: center; box-shadow: 0 10px 25px rgba(255, 77, 109, 0.1); border: 1px solid rgba(255,255,255,0.5); }
+        h1 { font-family: 'Dancing Script', cursive; color: var(--rose); margin: 10px 0; font-size: 2.5rem; }
+        .btn-love { background: var(--rose); color: white; border: none; padding: 15px 25px; border-radius: 50px; font-weight: 700; cursor: pointer; width: 100%; margin: 10px 0; font-size: 1rem; }
+        
+        /* Spin Wheel */
+        #wheel { width: 250px; height: 250px; border-radius: 50%; border: 10px solid var(--rose); margin: 20px auto; position: relative; transition: transform 4s cubic-bezier(0.1, 0, 0.1, 1); background: conic-gradient(var(--rose) 0deg 180deg, var(--gold) 180deg 360deg); }
+        #wheel-pointer { width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid black; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); z-index: 10; }
+
+        /* Photo Frames */
+        .frame { background: white; border: 10px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); margin-bottom: 20px; min-height: 300px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .frame img { width: 100%; height: auto; display: block; }
+
+        /* Music Controls */
+        #jukebox { position: fixed; top: 15px; left: 15px; z-index: 1001; background: var(--glass); padding: 8px 12px; border-radius: 20px; border: 1px solid var(--rose); }
+        
+        #lock-screen { position: fixed; inset: 0; background: var(--rose); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div id="jukebox">
+        🎶 <select id="music-select" onchange="changeMusic()" style="border:none; background:none; font-weight:700;">
+            <option value="https://www.chosic.com/wp-content/uploads/2021/07/Rainy-Day-Music-Cinematic-Piano.mp3">Piano</option>
+            <option value="https://www.chosic.com/wp-content/uploads/2021/04/Lofi-Study-Music.mp3">Lofi</option>
+            <option value="https://www.chosic.com/wp-content/uploads/2021/10/A-Little-Faith-Beautiful-Strings.mp3">Strings</option>
+        </select>
+    </div>
+    <audio id="bgMusic" loop></audio>
+
+    <div id="lock-screen">
+        <h1>Naima & Amish</h1>
+        <p>Enter Our Date (DDMM)</p>
+        <input type="password" id="entry-pass" style="padding:15px; border-radius:20px; border:none; text-align:center;" placeholder="••••">
+        <button class="btn-love" style="width:200px; margin-top:20px;" onclick="unlockApp()">Unlock 🔓</button>
+    </div>
+
+    <nav id="navbar" style="display:none;">
+        <div onclick="showPage('home')">🏠</div>
+        <div onclick="showPage('games')">🎡</div>
+        <div onclick="showPage('pickup')">✨</div>
+        <div onclick="showPage('diary')">📔</div>
+        <div onclick="showPage('ngl')">💭</div>
+        <div onclick="showPage('vault')">🔐</div>
+    </nav>
+
+    <div id="home" class="page">
+        <div class="card" style="margin-top:70px;">
+            <h1>Hi My Queen!</h1>
+            <p>I built this entire world just for us. Explore the icons below! ❤️</p>
+            <div style="font-size: 50px; animation: pulse 2s infinite;">🌹</div>
+        </div>
+        <div class="card">
+            <h3>Amish Quiz 🤔</h3>
+            <p>Favorite Food?</p>
+            <button class="btn-love" onclick="alert('Momo is good, but You are better! 😉')">Momo</button>
+            <button class="btn-love" onclick="confetti()">You 🫵🏻</button>
+            <p>Favorite Place?</p>
+            <button class="btn-love" onclick="alert('Kathmandu is okay, but your lap is home. ❤️')">Kathmandu</button>
+            <button class="btn-love" onclick="confetti()">Your Lap</button>
+        </div>
+    </div>
+
+    <div id="games" class="page">
+        <div class="card" style="margin-top:70px;">
+            <h1>Spin for Love 🛞</h1>
+            <div id="wheel-pointer"></div>
+            <div id="wheel"></div>
+            <button class="btn-love" onclick="spinWheel()">SPIN THE WHEEL</button>
+            <h2 id="wheel-result" style="color:var(--rose);"></h2>
+        </div>
+    </div>
+
+    <div id="pickup" class="page">
+        <div class="card" style="margin-top:70px;">
+            <h1>Pickup Lines ✨</h1>
+            <p id="pickup-text">Are you a parking ticket? Because you’ve got FINE written all over you.</p>
+            <div style="display:flex; gap:10px;">
+                <button class="btn-love" onclick="nextPickup(true)">Smooth 😎</button>
+                <button class="btn-love" style="background:#888" onclick="nextPickup(false)">Cheesy 🧀</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="diary" class="page">
+        <div class="card" style="margin-top:70px;">
+            <h1>My Secret Diary 📔</h1>
+            <textarea id="diary-body" style="width:100%; height:200px; border-radius:15px; padding:15px; border:1px solid #ddd;" placeholder="Write your feelings here, Naima..."></textarea>
+            <button class="btn-love" onclick="sendDiary()">Send to Amish's Heart</button>
+        </div>
+    </div>
+
+    <div id="ngl" class="page">
+        <div class="card" style="margin-top:70px;">
+            <h1>Not Gonna Lie 💭</h1>
+            <p>Be honest... how much do you love me today?</p>
+            <input type="range" min="1" max="1000" value="100" style="width:100%;">
+            <button class="btn-love" onclick="confetti()">1000% LOVE</button>
+        </div>
+    </div>
+
+    <div id="vault" class="page">
+        <div class="card" style="margin-top:70px;" id="v-lock">
+            <h1>Secret Vault 🔐</h1>
+            <input type="password" id="v-pass" style="padding:10px; border-radius:10px; border:1px solid #ddd;" placeholder="Birthday (DDMM)">
+            <button class="btn-love" onclick="unlockVault()">Open</button>
+        </div>
+        <div id="v-content" style="display:none; padding:10px;">
+            <div class="frame"><img src="IMG-20260111-WA0001.jpg"></div>
+            <div class="frame"><p>Empty Slot 2</p></div>
+            <div class="frame"><p>Empty Slot 3</p></div>
+            <div class="frame"><p>Empty Slot 4</p></div>
+            <div class="frame"><p>Empty Slot 5</p></div>
+        </div>
+    </div>
+
+    <script>
+        const anniversary = "0304";
+        const birthday = "0730";
+        const music = document.getElementById('bgMusic');
+        let currentRotation = 0;
+
+        function unlockApp() {
+            if(document.getElementById('entry-pass').value === anniversary) {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('navbar').style.display = 'flex';
+                changeMusic();
+                showPage('home');
+                confetti();
+            } else { alert("Wrong date, babe! ❌"); }
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function changeMusic() {
+            music.src = document.getElementById('music-select').value;
+            music.play();
+        }
+
+        function spinWheel() {
+            const extraDeg = Math.floor(Math.random() * 360) + 1440;
+            currentRotation += extraDeg;
+            const wheel = document.getElementById('wheel');
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+            
+            setTimeout(() => {
+                const actualDeg = currentRotation % 360;
+                const result = (actualDeg <= 180) ? "HUG! 🤗" : "KISS! 💋";
+                document.getElementById('wheel-result').innerText = "Result: " + result;
+                confetti();
+            }, 4000);
+        }
+
+        function nextPickup(isSmooth) {
+            const lines = [
+                "Is your name Google? Because you have everything I’m searching for.",
+                "Do you have a map? I just got lost in your eyes.",
+                "If you were a triangle, you’d be acute one.",
+                "Are you a campfire? Because you're super hot and I want s'more."
+            ];
+            document.getElementById('pickup-text').innerText = lines[Math.floor(Math.random()*lines.length)];
+            if(isSmooth) confetti();
+        }
+
+        function sendDiary() {
+            const text = document.getElementById('diary-body').value;
+            const url = `https://wa.me/9767757067?text=${encodeURIComponent("Dear Amish, \n" + text)}`;
+            window.open(url);
+        }
+
+        function unlockVault() {
+            if(document.getElementById('v-pass').value === birthday) {
+                document.getElementById('v-lock').style.display = 'none';
+                document.getElementById('v-content').style.display = 'block';
+                confetti();
+            } else { alert("Only Naima knows the birthday! 🎂"); }
+        }
+    </script>
+</body>
+          </html>
+          
